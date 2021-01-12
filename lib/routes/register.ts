@@ -36,6 +36,18 @@ export default async (req: Request, res: Response) => {
     } catch (err) {
         logger.error('Error encountered when attempting to save user');
         const error = err as mongoose.Error;
+
+        /** Error code 11000 represents "duplicate entry" */
+        if (err.code === 11000) {
+            res.status(400).send(
+                new ErrorResponse(
+                    400,
+                    'Bad request',
+                    'A user with that email address already exists'
+                )
+            );
+            return;
+        }
         res.status(500).send(
             new ErrorResponse(500, 'Internal server error', error.message)
         );
