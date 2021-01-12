@@ -1,3 +1,4 @@
+/** A new user which will be sent via a "register page" */
 export type NewUser = {
     firstName: string;
     secondName: string;
@@ -13,9 +14,7 @@ export type IUser = {
     memberSince: Date;
 };
 
-/**
- * The User model that will be returned to the client
- */
+/** The user object that will be returned to the client */
 export class User implements IUser {
     id: string;
     firstName: string;
