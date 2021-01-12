@@ -6,10 +6,7 @@ export type NewUser = {
     emailAddress: string;
 };
 
-export type IUser = {
-    firstName: string;
-    secondName: string;
-    emailAddress: string;
+export type IUser = Omit<NewUser, 'password'> & {
     memberSince: Date;
 };
 
