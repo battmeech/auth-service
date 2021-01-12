@@ -1,11 +1,13 @@
-import { logger } from '../logger';
 import { Request, Response } from 'express';
-import { read } from '../persistence/userPersistence';
-import { User } from '../models/user';
-import { ErrorResponse } from '../models/errorResponse';
+import fs from 'fs';
 import jwt from 'jsonwebtoken';
-import { Config } from '../config';
+import { logger } from '../logger';
+import { ErrorResponse } from '../models/errorResponse';
 import { JWT } from '../models/jwt';
+import { User } from '../models/user';
+import { read } from '../persistence/userPersistence';
+
+const file = fs.readFileSync('test.key.pub');
 
 export default async (req: Request, res: Response) => {
     logger.debug(`Entered route ${req.path}`);
@@ -29,16 +31,18 @@ export default async (req: Request, res: Response) => {
     logger.debug(`Extracted token from header: ${token}`);
     logger.debug('Verifying token');
     //TODO extract this somewhere else, and include the date checking
-    const jwtToken = jwt.verify(token, Config.jwtKey) as JWT;
+    const jwtToken = jwt.verify(token, file) as JWT;
+    logger.info(jwtToken.exp);
+    logger.info(new Date(jwtToken.exp));
+    logger.info(`Verified token ${JSON.stringify(jwtToken)}`);
     if (new Date(jwtToken.exp) < new Date(Date.now())) {
         res.status(401).send(
             new ErrorResponse(401, 'Unauthorized', 'Token has expired')
         );
         return;
     }
-    logger.debug(`Verified token ${jwtToken}`);
 
-    const emailAddress = jwtToken.data.emailAddress;
+    const emailAddress = jwtToken.user.emailAddress;
     logger.debug(`Looking for user with email ${emailAddress}`);
     const user = await read(emailAddress);
     if (user) {

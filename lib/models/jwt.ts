@@ -1,7 +1,9 @@
 import { IUser } from './user';
 
 export type JWT = {
-    exp: number;
-    data: IUser;
+    user: IUser;
     iat: number;
+    exp: number;
+    iss: string;
+    sub: string;
 };
