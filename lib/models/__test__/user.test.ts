@@ -9,7 +9,6 @@ describe('Unit: User Model', () => {
             emailAddress: 'joebloggs@email.com',
             firstName: 'Joe',
             secondName: 'Bloggs',
-            id: '12',
             memberSince,
         };
 
@@ -20,7 +19,6 @@ describe('Unit: User Model', () => {
         expect(user.emailAddress).toStrictEqual('joebloggs@email.com');
         expect(user.firstName).toStrictEqual('Joe');
         expect(user.secondName).toStrictEqual('Bloggs');
-        expect(user.id).toStrictEqual('12');
         expect(user.memberSince).toStrictEqual(memberSince);
     });
 });
