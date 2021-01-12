@@ -1,5 +1,5 @@
 import { NewUser } from '../../models/user';
-import { create } from '../userPersistence';
+import { create, read } from '../userPersistence';
 import { UserModel } from '../userSchema';
 
 describe('Unit: User Persistence', () => {
@@ -28,5 +28,31 @@ describe('Unit: User Persistence', () => {
 
         // Verify mocks
         expect(persistenceMock).toHaveBeenCalledTimes(1);
+    });
+
+    it('Successfully reads a user', async () => {
+        // Setup
+        const expected = {
+            firstName: 'Joe',
+            secondName: 'Bloggs',
+            emailAddress: 'joebloggs@email.com',
+        } as any;
+
+        const emailAddress = '12';
+
+        // Mocks
+        const persistenceMock = jest
+            .spyOn(UserModel, 'findOne')
+            .mockResolvedValue(expected);
+
+        // Run test
+        const actual = await read(emailAddress);
+
+        // Assert
+        expect(actual).toStrictEqual(expected);
+
+        // Verify mocks
+        expect(persistenceMock).toHaveBeenCalledTimes(1);
+        expect(persistenceMock).toHaveBeenCalledWith({ emailAddress });
     });
 });

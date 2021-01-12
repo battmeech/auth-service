@@ -17,5 +17,5 @@ it('Testing route initialisation', () => {
         }
     });
 
-    expect(routes.length).toStrictEqual(1);
+    expect(routes.length).toStrictEqual(2);
 });

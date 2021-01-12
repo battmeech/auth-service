@@ -18,3 +18,15 @@ export async function create(
 
     return savedUser;
 }
+
+/**
+ * Find a user via their email address
+ * @param emailAddress the email address to look for
+ */
+export async function read(
+    emailAddress: string
+): Promise<PersistedUser | null> {
+    const foundUser = await UserModel.findOne({ emailAddress });
+
+    return foundUser;
+}
