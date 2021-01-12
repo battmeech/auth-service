@@ -6,6 +6,7 @@ import { ErrorResponse } from '../models/errorResponse';
 import { User } from '../models/user';
 import { create } from '../persistence/userPersistence';
 import { PersistedUser } from '../persistence/userSchema';
+import { createJwt } from '../utils/jwt';
 
 /** This route is for registering new users */
 export default async (req: Request, res: Response) => {
@@ -42,10 +43,12 @@ export default async (req: Request, res: Response) => {
         return;
     }
 
-    logger.debug(
-        `User successfully saved id: ${persistedUser._id}, returning response to client`
-    );
+    logger.debug(`User successfully saved id: ${persistedUser._id}`);
     logger.info('New user saved');
 
-    res.status(200).send(new User(persistedUser));
+    logger.debug('Generating JWT To return to client');
+    const token = createJwt(new User(persistedUser));
+    logger.debug(`Created JWT ${token}`);
+
+    res.status(200).send({ token });
 };

@@ -9,10 +9,11 @@ import { User } from '../models/user';
 export function createJwt(user: User) {
     const token = jwt.sign(
         {
-            exp: Config.jwtExpiry,
+            exp: Date.now() + Number(Config.jwtExpiry),
             data: user,
         },
         Config.jwtKey
     );
+
     return token;
 }

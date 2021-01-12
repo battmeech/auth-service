@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { ValidationError } from 'joi';
 import { ErrorResponse } from '../../models/errorResponse';
 import { NewUser, User } from '../../models/user';
 import * as Persistence from '../../persistence/userPersistence';
+import * as JWT from '../../utils/jwt';
 import { PersistedUser } from '../../persistence/userSchema';
 import register from '../register';
 
@@ -36,13 +36,16 @@ describe('Unit: Register User', () => {
         memberSince,
     } as PersistedUser;
 
+    const token = 'jwt.token.example';
+
     afterEach(() => {
         jest.clearAllMocks();
     });
 
     it('Successfully runs through the create route', async () => {
         // Setup
-        const expectedResponseBody: User = new User(expectedBody);
+        const expectedResponseBody = { token };
+        const userObject: User = new User(expectedBody);
 
         // Mocks
         const persistenceMock = jest
@@ -50,6 +53,8 @@ describe('Unit: Register User', () => {
             .mockReturnValue(Promise.resolve(expectedBody));
 
         const dateMock = jest.spyOn(Date, 'now').mockReturnValueOnce(1);
+
+        const jwtMock = jest.spyOn(JWT, 'createJwt').mockReturnValueOnce(token);
 
         // Run test
         await register(request, response);
@@ -62,6 +67,8 @@ describe('Unit: Register User', () => {
         expect(sendMock).toHaveBeenCalledTimes(1);
         expect(sendMock).toHaveBeenCalledWith(expectedResponseBody);
         expect(dateMock).toHaveBeenCalledTimes(1);
+        expect(jwtMock).toHaveBeenCalledTimes(1);
+        expect(jwtMock).toHaveBeenCalledWith(userObject);
     });
 
     it('Returns a 500 when the database save fails', async () => {
