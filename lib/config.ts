@@ -7,6 +7,7 @@ export const Config = {
     port: process.env.PORT ?? '5000',
     logLevel: process.env.LOG_LEVEL ?? 'info',
     jwtKey: process.env.JWT_KEY ?? 'REPLACE',
+    publicKey: process.env.JWT_PUBLIC_KEY ?? 'REPLACE',
     /** How long it takes the JWT to expire */
     jwtExpiry: process.env.JWT_EXPIRY ?? 86400,
     env: process.env.NODE_ENV ?? 'development',

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { ValidationError } from 'joi';
 import mongoose from 'mongoose';
+import { Config } from '../config';
 import { logger } from '../logger';
 import { ErrorResponse } from '../models/errorResponse';
 import { User } from '../models/user';
@@ -61,6 +62,14 @@ export default async (req: Request, res: Response) => {
     logger.debug('Generating JWT To return to client');
     const token = createJwt(new User(persistedUser));
     logger.debug(`Created JWT ${token}`);
+
+    const domain = req.query?.referrer as string | undefined;
+
+    res.cookie('mb-auth', token, {
+        maxAge: Number(Config.jwtExpiry) * 1000,
+        httpOnly: true,
+        domain,
+    });
 
     res.status(200).send({ token });
 };

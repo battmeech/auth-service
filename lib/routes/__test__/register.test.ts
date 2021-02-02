@@ -5,14 +5,17 @@ import * as Persistence from '../../persistence/userPersistence';
 import * as JWT from '../../utils/jwt';
 import { UserDocument } from '../../persistence/userSchema';
 import register from '../register';
+import { Config } from '../../config';
 
 describe('Unit: Register User', () => {
     // Mock response
     const response = {} as Response;
     const statusMock = jest.fn().mockReturnValue(response);
     const sendMock = jest.fn().mockReturnValue(response);
+    const cookieMock = jest.fn().mockReturnValue(response);
     response.status = statusMock;
     response.send = sendMock;
+    response.cookie = cookieMock;
 
     // New user to test
     const body: NewUser = {
@@ -66,6 +69,11 @@ describe('Unit: Register User', () => {
         expect(statusMock).toHaveBeenCalledWith(200);
         expect(sendMock).toHaveBeenCalledTimes(1);
         expect(sendMock).toHaveBeenCalledWith(expectedResponseBody);
+        expect(cookieMock).toHaveBeenCalledTimes(1);
+        expect(cookieMock).toHaveBeenCalledWith('mb-auth', token, {
+            httpOnly: true,
+            maxAge: Number(Config.jwtExpiry) * 1000,
+        });
         expect(dateMock).toHaveBeenCalledTimes(1);
         expect(jwtMock).toHaveBeenCalledTimes(1);
         expect(jwtMock).toHaveBeenCalledWith(userObject);

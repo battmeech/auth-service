@@ -24,6 +24,6 @@ export function createJwt(user: User) {
  * @param jwtString the JWT to verify
  */
 export function verifyJwt(jwtString: string) {
-    const jwtToken = jwt.verify(jwtString, Config.jwtKey) as JWT;
+    const jwtToken = jwt.verify(jwtString, Config.publicKey) as JWT;
     return jwtToken;
 }
