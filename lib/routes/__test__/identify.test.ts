@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { NewUser } from '../../models/user';
-import { PersistedUser } from '../../persistence/userSchema';
+import { UserDocument } from '../../persistence/userSchema';
 
 describe('Unit: Register User', () => {
     // Mock response
@@ -30,7 +30,7 @@ describe('Unit: Register User', () => {
     const expectedBody = {
         ...body,
         memberSince,
-    } as PersistedUser;
+    } as UserDocument;
 
     const token = 'jwt.token.example';
 

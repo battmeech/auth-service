@@ -1,5 +1,5 @@
 import { NewUser } from '../models/user';
-import { PersistedUser, UserModel } from './userSchema';
+import { UserDocument, UserModel } from './userSchema';
 
 /**
  * Save a user to MongoDB
@@ -8,7 +8,7 @@ import { PersistedUser, UserModel } from './userSchema';
 export async function create(
     newUser: NewUser,
     memberSince: Date
-): Promise<PersistedUser> {
+): Promise<UserDocument> {
     const userToSave = new UserModel({
         ...newUser,
         memberSince,
@@ -23,9 +23,7 @@ export async function create(
  * Find a user via their email address
  * @param emailAddress the email address to look for
  */
-export async function read(
-    emailAddress: string
-): Promise<PersistedUser | null> {
+export async function read(emailAddress: string): Promise<UserDocument | null> {
     const foundUser = await UserModel.findOne({ emailAddress });
 
     return foundUser;

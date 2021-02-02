@@ -5,7 +5,7 @@ import { logger } from '../logger';
 import { ErrorResponse } from '../models/errorResponse';
 import { User } from '../models/user';
 import { create } from '../persistence/userPersistence';
-import { PersistedUser } from '../persistence/userSchema';
+import { UserDocument } from '../persistence/userSchema';
 import { createJwt } from '../utils/jwt';
 
 /** This route is for registering new users */
@@ -28,7 +28,7 @@ export default async (req: Request, res: Response) => {
         return;
     }
 
-    let persistedUser: PersistedUser;
+    let persistedUser: UserDocument;
     const memberSince = new Date(Date.now());
     try {
         logger.debug('Attempting to save new user');

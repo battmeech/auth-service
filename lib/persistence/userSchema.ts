@@ -1,10 +1,16 @@
 import bcrypt from 'bcryptjs';
-import mongoose, { Document } from 'mongoose';
+import mongoose, { Document, Model } from 'mongoose';
 import { IUser, NewUser } from '../models/User';
 
-export type PersistedUser = Document & IUser & Pick<NewUser, 'password'>;
+export type UserDocument = Document &
+    IUser &
+    Pick<NewUser, 'password'> & {
+        comparePassword(candidatePassword: string): Promise<boolean>;
+    };
 
-const UserSchema = new mongoose.Schema({
+export type UserModel = Model<UserDocument>;
+
+const UserSchema = new mongoose.Schema<UserDocument, UserModel>({
     emailAddress: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     firstName: { type: String, required: true },
@@ -12,8 +18,8 @@ const UserSchema = new mongoose.Schema({
     memberSince: { type: Date, required: true },
 });
 
-UserSchema.pre('save', async function (next) {
-    const user = this as PersistedUser;
+UserSchema.pre<UserDocument>('save', async function (next) {
+    const user = this;
 
     // only hash the password if it has been modified (or is new)
     if (!user.isModified('password')) return next();
@@ -32,9 +38,12 @@ UserSchema.pre('save', async function (next) {
 UserSchema.methods.comparePassword = async function (
     candidatePassword: string
 ) {
-    const user = this as PersistedUser;
+    const user = this as UserDocument;
     const isMatch = await bcrypt.compare(candidatePassword, user.password);
     return isMatch;
 };
 
-export const UserModel = mongoose.model<PersistedUser>('User', UserSchema);
+export const UserModel = mongoose.model<UserDocument, UserModel>(
+    'User',
+    UserSchema
+);

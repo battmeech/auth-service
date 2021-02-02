@@ -3,7 +3,7 @@ import { ErrorResponse } from '../../models/errorResponse';
 import { NewUser, User } from '../../models/user';
 import * as Persistence from '../../persistence/userPersistence';
 import * as JWT from '../../utils/jwt';
-import { PersistedUser } from '../../persistence/userSchema';
+import { UserDocument } from '../../persistence/userSchema';
 import register from '../register';
 
 describe('Unit: Register User', () => {
@@ -34,7 +34,7 @@ describe('Unit: Register User', () => {
     const expectedBody = {
         ...body,
         memberSince,
-    } as PersistedUser;
+    } as UserDocument;
 
     const token = 'jwt.token.example';
 
