@@ -17,13 +17,17 @@ describe('Unit: JWT Utils', () => {
             memberSince,
         });
 
-        const exp = Number(Config.jwtExpiry) + 1;
+        const options = {
+            algorithm: 'RS256',
+            expiresIn: 86400,
+            issuer: 'MBeech Auth',
+            subject: 'joebloggs@email.com',
+        };
 
         const expected: any = 'bob';
 
         // Setup mocks
         const jwtMock = jest.spyOn(jwt, 'sign').mockReturnValue(expected);
-        const dateMock = jest.spyOn(Date, 'now').mockReturnValueOnce(1);
 
         // Run test
         const actual = createJwt(user);
@@ -33,7 +37,10 @@ describe('Unit: JWT Utils', () => {
 
         // Verify mocks
         expect(jwtMock).toHaveBeenCalledTimes(1);
-        expect(jwtMock).toHaveBeenLastCalledWith({ user }, Config.jwtKey);
-        expect(dateMock).toHaveBeenCalledTimes(1);
+        expect(jwtMock).toHaveBeenLastCalledWith(
+            { user },
+            Config.jwtKey,
+            options
+        );
     });
 });

@@ -1,11 +1,7 @@
-import fs from 'fs';
 import jwt from 'jsonwebtoken';
 import { Config } from '../config';
 import { JWT } from '../models/jwt';
 import { User } from '../models/user';
-
-const privateKey = fs.readFileSync('test.key');
-const publicKey = fs.readFileSync('test.key.pub');
 
 const options = (emailAddress: string): jwt.SignOptions => ({
     expiresIn: Number(Config.jwtExpiry),
@@ -19,7 +15,7 @@ const options = (emailAddress: string): jwt.SignOptions => ({
  * @param user the payload to be included in the JWT
  */
 export function createJwt(user: User) {
-    const token = jwt.sign({ user }, privateKey, options(user.emailAddress));
+    const token = jwt.sign({ user }, Config.jwtKey, options(user.emailAddress));
     return token;
 }
 
@@ -28,6 +24,6 @@ export function createJwt(user: User) {
  * @param jwtString the JWT to verify
  */
 export function verifyJwt(jwtString: string) {
-    const jwtToken = jwt.verify(jwtString, publicKey) as JWT;
+    const jwtToken = jwt.verify(jwtString, Config.jwtKey) as JWT;
     return jwtToken;
 }
