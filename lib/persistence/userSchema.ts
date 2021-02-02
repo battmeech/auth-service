@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import mongoose, { Document, Model } from 'mongoose';
-import { IUser, NewUser } from '../models/User';
+import { IUser, NewUser } from '../models/user';
 
 export type UserDocument = Document &
     IUser &
