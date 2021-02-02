@@ -7,7 +7,7 @@ describe('Unit: User Persistence', () => {
         // Setup
         const input: NewUser = {
             firstName: 'Joe',
-            secondName: 'Bloggs',
+            surname: 'Bloggs',
             emailAddress: 'joebloggs@email.com',
             password: 'J0eblo99sRu1ez',
         };
@@ -34,7 +34,7 @@ describe('Unit: User Persistence', () => {
         // Setup
         const expected = {
             firstName: 'Joe',
-            secondName: 'Bloggs',
+            surname: 'Bloggs',
             emailAddress: 'joebloggs@email.com',
         } as any;
 

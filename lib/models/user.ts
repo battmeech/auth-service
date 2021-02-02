@@ -1,7 +1,7 @@
 /** A new user which will be sent via a "register page" */
 export type NewUser = {
     firstName: string;
-    secondName: string;
+    surname: string;
     password: string;
     emailAddress: string;
 };
@@ -13,13 +13,13 @@ export type IUser = Omit<NewUser, 'password'> & {
 /** The user object that will be returned to the client */
 export class User implements IUser {
     firstName: string;
-    secondName: string;
+    surname: string;
     emailAddress: string;
     memberSince: Date;
 
     constructor(user: IUser) {
         this.firstName = user.firstName;
-        this.secondName = user.secondName;
+        this.surname = user.surname;
         this.emailAddress = user.emailAddress;
         this.memberSince = user.memberSince;
     }

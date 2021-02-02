@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
 import { logger } from '../logger';
 import { ErrorResponse } from '../models/errorResponse';
-import { JWT } from '../models/jwt';
 import { User } from '../models/user';
 import { read } from '../persistence/userPersistence';
 import { verifyJwt } from '../utils/jwt';

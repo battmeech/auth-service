@@ -17,7 +17,7 @@ describe('Unit: Register User', () => {
     // New user to test
     const body: NewUser = {
         firstName: 'Joe',
-        secondName: 'Bloggs',
+        surname: 'Bloggs',
         emailAddress: 'joebloggs@email.com',
         password: 'J0eblo99sRu1ez',
     };

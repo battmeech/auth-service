@@ -8,7 +8,7 @@ describe('Unit: User Model', () => {
         const iUser: IUser = {
             emailAddress: 'joebloggs@email.com',
             firstName: 'Joe',
-            secondName: 'Bloggs',
+            surname: 'Bloggs',
             memberSince,
         };
 
@@ -18,7 +18,7 @@ describe('Unit: User Model', () => {
         // Assert
         expect(user.emailAddress).toStrictEqual('joebloggs@email.com');
         expect(user.firstName).toStrictEqual('Joe');
-        expect(user.secondName).toStrictEqual('Bloggs');
+        expect(user.surname).toStrictEqual('Bloggs');
         expect(user.memberSince).toStrictEqual(memberSince);
     });
 });

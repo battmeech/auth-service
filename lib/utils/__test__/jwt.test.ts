@@ -12,7 +12,7 @@ describe('Unit: JWT Utils', () => {
         const memberSince = new Date(Date.now());
         const user: User = new User({
             firstName: 'Joe',
-            secondName: 'Bloggs',
+            surname: 'Bloggs',
             emailAddress: 'joebloggs@email.com',
             memberSince,
         });

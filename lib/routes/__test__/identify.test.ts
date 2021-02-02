@@ -1,10 +1,6 @@
 import { Request, Response } from 'express';
-import { ErrorResponse } from '../../models/errorResponse';
-import { NewUser, User } from '../../models/user';
-import * as Persistence from '../../persistence/userPersistence';
-import * as JWT from '../../utils/jwt';
+import { NewUser } from '../../models/user';
 import { PersistedUser } from '../../persistence/userSchema';
-import register from '../register';
 
 describe('Unit: Register User', () => {
     // Mock response
@@ -17,7 +13,7 @@ describe('Unit: Register User', () => {
     // New user to test
     const body: NewUser = {
         firstName: 'Joe',
-        secondName: 'Bloggs',
+        surname: 'Bloggs',
         emailAddress: 'joebloggs@email.com',
         password: 'J0eblo99sRu1ez',
     };
