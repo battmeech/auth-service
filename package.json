@@ -34,7 +34,7 @@
         "express": "^4.17.1",
         "joi": "^17.3.0",
         "jsonwebtoken": "^8.5.1",
-        "mongoose": "^5.11.11",
+        "mongoose": "^5.12.14",
         "winston": "^3.3.3"
     },
     "devDependencies": {
